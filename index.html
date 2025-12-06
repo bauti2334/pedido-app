@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedidos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>📦 Registrar pedido</h2>
+
+  <form id="pedidoForm">
+    <input type="text" id="nombre" placeholder="Nombre del cliente" required>
+    <input type="text" id="producto" placeholder="Producto" required>
+    <input type="number" id="cantidad" placeholder="Cantidad" required>
+    <input type="file" id="foto" accept="image/*">
+    <button type="submit">Guardar Pedido</button>
+  </form>
+
+  <h2>📜 Pedidos guardados</h2>
+  <div id="listaPedidos"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
