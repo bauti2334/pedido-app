@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TACTICAL REGIMENT MANAGER</title>
+    <title>TACTICAL COMMAND - SISTEMA DE GESTIÓN</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
             <div class="header-left">
-                <div class="military-badge">⚔</div>
+                <div class="military-badge" id="logoContainer">⚔</div>
                 <div>
-                    <h1>TACTICAL REGIMENT MANAGER</h1>
-                    <span class="classification-badge">CLASSIFIED / TOP SECRET</span>
+                    <h1 id="regimentName">TACTICAL REGIMENT MANAGER</h1>
+                    <span class="classification-badge">CLASSIFIED // TOP SECRET</span>
                 </div>
             </div>
             <div class="header-right">
@@ -26,6 +26,7 @@
             <button class="tab active" onclick="switchTab('eventos', event)">EVENTOS</button>
             <button class="tab" onclick="switchTab('asistencia', event)">ASISTENCIA</button>
             <button class="tab" onclick="switchTab('combate', event)">COMBATE</button>
+            <button class="tab" onclick="switchTab('promociones', event)">PROMOCIONES</button>
             <button class="tab" onclick="switchTab('estadisticas', event)">INTEL</button>
             <button class="tab" onclick="switchTab('nombres', event)">PERSONAL</button>
         </div>
@@ -34,16 +35,16 @@
             <div class="section-header">// REGISTRO DE OPERACIONES</div>
             <div class="military-grid">
                 <div class="form-group">
-                    <label>Fecha de Operación:</label>
+                    <label>Fecha:</label>
                     <input type="date" id="eventoFecha">
                 </div>
                 <div class="form-group">
                     <label>Nombre de Operación:</label>
-                    <input type="text" id="eventoNombre" placeholder="EJ: OP. TORMENTA">
+                    <input type="text" id="eventoNombre" placeholder="EJ: OP. NEPTUNO">
                 </div>
             </div>
             <div class="btn-group">
-                <button onclick="agregarEvento()">+ REGISTRAR OPERACIÓN</button>
+                <button onclick="agregarEvento()">+ REGISTRAR OP</button>
                 <button class="danger" onclick="eliminarEvento()">ELIMINAR SELECCIONADO</button>
             </div>
             <table id="tablaEventos">
@@ -56,50 +57,66 @@
             <div class="section-header">// CONTROL DE ASISTENCIA</div>
             <div class="military-grid">
                 <div class="form-group">
-                    <label>Seleccionar Operación:</label>
+                    <label>Operación:</label>
                     <select id="asistenciaEvento"></select>
                 </div>
                 <div class="form-group">
-                    <label>Seleccionar Personal:</label>
+                    <label>Operador:</label>
                     <select id="asistenciaSoldado"></select>
                 </div>
             </div>
             <button onclick="marcarAsistencia()">CONFIRMAR ASISTENCIA</button>
             <table id="tablaAsistencias">
-                <thead><tr><th>PERSONAL</th><th>OPERACIÓN</th><th>FECHA</th><th>ACCIÓN</th></tr></thead>
+                <thead><tr><th>PERSONAL</th><th>OPERACIÓN</th><th>FECHA</th><th>X</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
 
         <div id="combate" class="tab-content">
-            <div class="section-header">// REGISTRO DE COMBATE</div>
+            <div class="section-header">// REGISTRO DE ACCIÓN EN COMBATE</div>
+            <div class="military-grid">
+                <div class="form-group"><label>Op:</label><select id="combateEvento"></select></div>
+                <div class="form-group"><label>Operador:</label><select id="combateSoldado"></select></div>
+                <div class="form-group"><label>Kills:</label><input type="number" id="combateKills" value="0"></div>
+                <div class="form-group"><label>Assists:</label><input type="number" id="combateAsistencias" value="0"></div>
+            </div>
+            <button onclick="registrarCombate()">REGISTRAR DATOS</button>
+            <table id="tablaCombate">
+                <thead><tr><th>OPERADOR</th><th>OP</th><th>K</th><th>A</th><th>X</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="promociones" class="tab-content">
+            <div class="section-header">// ESCALAFÓN Y MÉRITOS</div>
             <div class="military-grid">
                 <div class="form-group">
-                    <label>Operación:</label>
-                    <select id="combateEvento"></select>
+                    <label>Añadir Puntos a:</label>
+                    <select id="promoSoldadoSeleccionado"></select>
                 </div>
                 <div class="form-group">
-                    <label>Personal:</label>
-                    <select id="combateSoldado"></select>
-                </div>
-                <div class="form-group">
-                    <label>Bajas Confirmadas:</label>
-                    <input type="number" id="combateKills" value="0">
-                </div>
-                <div class="form-group">
-                    <label>Asistencias:</label>
-                    <input type="number" id="combateAsistencias" value="0">
+                    <label>Cantidad:</label>
+                    <input type="number" id="puntosInput" value="1">
                 </div>
             </div>
-            <button onclick="registrarCombate()">REGISTRAR ACCIÓN</button>
-            <table id="tablaCombate">
-                <thead><tr><th>PERSONAL</th><th>OP</th><th>KILLS</th><th>ASSISTS</th><th>X</th></tr></thead>
+            <button onclick="modificarPuntosMasivo()">APLICAR PUNTOS</button>
+            <table id="tablaPromociones">
+                <thead>
+                    <tr>
+                        <th>OPERADOR</th>
+                        <th>RANGO</th>
+                        <th>COMPAÑÍA</th>
+                        <th>PUNTOS</th>
+                        <th>GESTIÓN</th>
+                        <th>ACCION</th>
+                    </tr>
+                </thead>
                 <tbody></tbody>
             </table>
         </div>
 
         <div id="estadisticas" class="tab-content">
-            <div class="section-header">// INTELIGENCIA Y ANÁLISIS</div>
+            <div class="section-header">// INTELIGENCIA E INFORMES</div>
             <div class="stats-summary">
                 <div class="stat-box"><div class="value" id="totalOperaciones">0</div><div class="label">Ops</div></div>
                 <div class="stat-box"><div class="value" id="totalPersonal">0</div><div class="label">Personal</div></div>
@@ -107,35 +124,21 @@
                 <div class="stat-box"><div class="value" id="totalAsistencias">0</div><div class="label">Assists</div></div>
             </div>
             <div class="btn-group">
-                <button onclick="exportarDatos()">📥 EXPORTAR</button>
+                <button onclick="exportarDatos()">📥 BACKUP</button>
                 <button onclick="document.getElementById('importFile').click()">📤 IMPORTAR</button>
-                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importarDatos(event)">
-                <button class="danger" onclick="resetearTodo()">⚠ RESET</button>
+                <input type="file" id="importFile" style="display:none" onchange="importarDatos(event)">
+                <button class="danger" onclick="resetearTodo()">⚠ RESET TOTAL</button>
             </div>
             <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>🎯 TOP KILLS</h3>
-                    <table id="tablaTopKills"><thead><tr><th>#</th><th>OPERADOR</th><th>K</th></tr></thead><tbody></tbody></table>
-                </div>
-                <div class="stat-card">
-                    <h3>🎖 TOP ASSISTS</h3>
-                    <table id="tablaTopAsistencias"><thead><tr><th>#</th><th>OPERADOR</th><th>A</th></tr></thead><tbody></tbody></table>
-                </div>
+                <div class="stat-card"><h3>🎯 TOP KILLS</h3><table id="tablaTopKills"><tbody></tbody></table></div>
+                <div class="stat-card"><h3>🎖 TOP PUNTOS</h3><table id="tablaTopPuntos"><tbody></tbody></table></div>
             </div>
-            <div class="section-header" style="color: #da3633; margin-top: 40px;">⚠ ANÁLISIS DE FALTAS</div>
-            <table id="tablaPurga" class="purga-table">
-                <thead><tr><th>OPERADOR</th><th>OPS</th><th>ASIS</th><th>FALTAS</th></tr></thead>
-                <tbody></tbody>
-            </table>
         </div>
 
         <div id="nombres" class="tab-content">
-            <div class="section-header">// GESTIÓN DE PERSONAL</div>
-            <textarea id="listaNombres" placeholder="Pega nombres aquí (uno por línea)..."></textarea>
-            <div class="btn-group">
-                <button onclick="cargarNombres()">CARGAR PERSONAL</button>
-                <button class="danger" onclick="limpiarNombres()">BORRAR TODO</button>
-            </div>
+            <div class="section-header">// ALTA DE NUEVOS OPERADORES</div>
+            <textarea id="listaNombres" placeholder="Pega los nombres aquí (uno por línea)..."></textarea>
+            <button onclick="cargarNombres()">INGRESAR PERSONAL</button>
             <table id="tablaNombres">
                 <thead><tr><th>ID</th><th>NOMBRE</th><th>ACCIÓN</th></tr></thead>
                 <tbody></tbody>
