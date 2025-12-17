@@ -1,20 +1,29 @@
-body {
-  font-family: Arial, sans-serif;
-  max-width: 500px;
-  margin: auto;
-  padding: 20px;
-  background: #fafafa;
-}
-
-form input, button {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0;
-}
-
-#listaPedidos {
-  margin-top: 20px;
-  background: white;
-  padding: 10px;
-  border-radius: 5px;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Courier New', monospace; background: #0a0e1a; color: #00ff41; min-height: 100vh; }
+.container { max-width: 1400px; margin: 0 auto; background: #0d1117; min-height: 100vh; }
+header { background: linear-gradient(180deg, #161b22 0%, #0d1117 100%); padding: 20px 40px; border-bottom: 2px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+.header-left { display: flex; align-items: center; gap: 20px; }
+.military-badge { width: 60px; height: 60px; background: #30363d; border: 2px solid #00ff41; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; }
+h1 { color: #00ff41; font-size: 1.8em; letter-spacing: 2px; text-transform: uppercase; }
+.status-indicator { display: inline-block; width: 8px; height: 8px; background: #00ff41; border-radius: 50%; margin-right: 5px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.tabs { display: flex; background: #161b22; border-bottom: 1px solid #30363d; padding: 0 40px; overflow-x: auto; }
+.tab { padding: 15px 30px; cursor: pointer; background: transparent; border: none; color: #8b949e; font-family: 'Courier New', monospace; text-transform: uppercase; border-bottom: 2px solid transparent; }
+.tab.active { color: #00ff41; border-bottom-color: #00ff41; background: rgba(0, 255, 65, 0.1); }
+.tab-content { display: none; padding: 40px; }
+.tab-content.active { display: block; }
+.section-header { color: #00ff41; font-size: 1.3em; margin-bottom: 25px; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
+input, select, textarea { width: 100%; padding: 12px; background: #161b22; border: 1px solid #30363d; color: #c9d1d9; font-family: 'Courier New', monospace; margin-bottom: 15px; }
+button { padding: 10px 20px; background: #238636; color: white; border: 1px solid #2ea043; cursor: pointer; text-transform: uppercase; }
+button.danger { background: #da3633; border-color: #f85149; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #161b22; }
+th, td { padding: 12px; border: 1px solid #30363d; text-align: left; }
+th { background: #21262d; color: #00ff41; }
+.purga-table { border: 2px solid #da3633; }
+.purga-table th { background: #da3633; color: white; }
+.military-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.stats-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+.stat-box { background: #161b22; padding: 20px; border: 1px solid #30363d; text-align: center; }
+.stat-box .value { font-size: 2.5em; color: #00ff41; font-weight: bold; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.classification-badge { background: #da3633; color: white; padding: 2px 8px; font-size: 0.7em; }
