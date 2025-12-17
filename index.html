@@ -16,8 +16,29 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Courier New', Courier, monospace; background: var(--bg-dark); color: var(--text); line-height: 1.6; }
+        body { font-family: 'Courier New', Courier, monospace; background: var(--bg-dark); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
+        /* PANTALLA DE BLOQUEO */
+        #loginScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 9999;
+        }
+        .login-box {
+            border: 2px solid var(--accent); padding: 40px; text-align: center;
+            background: #161b22; box-shadow: 0 0 20px rgba(0,255,65,0.2);
+        }
+        .login-box h2 { color: var(--accent); margin-bottom: 20px; letter-spacing: 3px; }
+        .login-box input { 
+            background: transparent; border: 1px solid var(--accent); 
+            color: var(--accent); padding: 10px; text-align: center; 
+            font-size: 1.5rem; width: 150px; outline: none;
+        }
+        .error-msg { color: var(--danger); margin-top: 10px; display: none; font-size: 0.8rem; }
+
+        /* CONTENIDO PRINCIPAL */
+        #mainContent { display: none; }
+        
         .container { max-width: 1200px; margin: 0 auto; background: var(--bg-card); min-height: 100vh; border-inline: 1px solid var(--border); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
         
         header { padding: 20px 40px; background: #161b22; border-bottom: 2px solid var(--accent); display: flex; justify-content: space-between; align-items: center; }
@@ -28,50 +49,48 @@
         .tabs { display: flex; background: #161b22; border-bottom: 1px solid var(--border); sticky; top: 0; z-index: 100; overflow-x: auto; }
         .tab { padding: 15px 20px; cursor: pointer; background: transparent; border: none; color: #8b949e; font-family: inherit; text-transform: uppercase; border-bottom: 3px solid transparent; transition: 0.3s; white-space: nowrap; }
         .tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(0, 255, 65, 0.05); }
-        .tab:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.05); }
 
         .tab-content { display: none; padding: 30px; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .section-header { color: var(--accent); margin: 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 10px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; }
-        
+        .section-header { color: var(--accent); margin: 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 10px; text-transform: uppercase; font-weight: bold; }
         .military-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; align-items: end; }
-        input, select, textarea { width: 100%; padding: 12px; background: #0d1117; border: 1px solid var(--border); color: #fff; font-family: inherit; border-radius: 4px; }
-        input:focus, select:focus { border-color: var(--accent); outline: none; }
+        input, select, textarea { width: 100%; padding: 12px; background: #0d1117; border: 1px solid var(--border); color: #fff; font-family: inherit; }
         
-        button { padding: 12px 20px; background: #238636; color: white; border: none; cursor: pointer; text-transform: uppercase; font-weight: bold; transition: 0.2s; border-radius: 4px; }
-        button:hover { filter: brightness(1.2); transform: translateY(-1px); }
-        button:active { transform: translateY(0); }
+        button { padding: 12px 20px; background: #238636; color: white; border: none; cursor: pointer; text-transform: uppercase; font-weight: bold; border-radius: 4px; }
         button.danger { background: var(--danger); }
         button.promote { background: var(--warning); color: black; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 15px; background: #0d1117; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-        th { background: #161b22; color: var(--accent); position: sticky; top: 0; }
-        tr:hover { background: rgba(255,255,255,0.02); }
-        
-        .puntos-badge { color: var(--accent); font-weight: bold; padding: 4px 8px; border: 1px solid var(--accent); background: rgba(0,255,65,0.1); border-radius: 3px; }
-
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
-        .stat-box { background: #161b22; padding: 20px; border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: 4px; }
-        .stat-box h3 { margin-bottom: 15px; font-size: 0.9rem; color: var(--accent); }
-
-        textarea { resize: vertical; min-height: 100px; }
-
-        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        th { background: #161b22; color: var(--accent); }
+        .puntos-badge { color: var(--accent); font-weight: bold; padding: 4px 8px; border: 1px solid var(--accent); background: rgba(0,255,65,0.1); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .stat-box { background: #161b22; padding: 20px; border: 1px solid var(--border); border-top: 3px solid var(--accent); }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div id="loginScreen">
+    <div class="logo-area" style="margin-bottom: 30px; flex-direction: column;">
+        <img src="https://i.postimg.cc/przFCQg4/imagen-2025-12-17-165339410.png" alt="Logo" style="height: 100px;">
+    </div>
+    <div class="login-box">
+        <h2>ACCESO RESTRINGIDO</h2>
+        <input type="password" id="passInput" placeholder="CÓDIGO" maxlength="4">
+        <div id="errorMsg" class="error-msg">CÓDIGO DE ACCESO INCORRECTO</div>
+        <p style="color: #444; margin-top: 15px; font-size: 0.6rem;">GRANADEROS PROVINCIALES - SEGURIDAD NIVEL 4</p>
+    </div>
+</div>
+
+<div id="mainContent" class="container">
     <header>
         <div class="logo-area">
             <img src="https://i.postimg.cc/przFCQg4/imagen-2025-12-17-165339410.png" alt="Logo" class="logo-img">
             <div>
                 <h1>REGIMIENTO GRANADEROS PROVINCIALES</h1>
-                <span style="color:var(--danger); font-size: 0.75rem; font-weight: bold;">[ CONTROL DE COMANDO Y PERSONAL ]</span>
+                <span style="color:var(--danger); font-size: 0.75rem; font-weight: bold;">[ CONTROL DE COMANDO ]</span>
             </div>
         </div>
         <div id="currentDateTime" style="color: var(--accent); font-weight: bold;"></div>
@@ -87,39 +106,27 @@
     </div>
 
     <div id="eventos" class="tab-content active">
-        <div class="section-header">// REGISTRO DE NUEVA OPERACIÓN</div>
+        <div class="section-header">// OPERACIONES</div>
         <div class="military-grid">
-            <div>
-                <label>FECHA:</label>
-                <input type="date" id="eventoFecha">
-            </div>
-            <div>
-                <label>NOMBRE OP:</label>
-                <input type="text" id="eventoNombre" placeholder="Ej: Operación Trueno">
-            </div>
+            <input type="date" id="eventoFecha">
+            <input type="text" id="eventoNombre" placeholder="NOMBRE OP">
             <button onclick="agregarEvento()">REGISTRAR</button>
         </div>
-        <table id="tablaEventos">
-            <thead><tr><th>FECHA</th><th>OPERACIÓN</th><th>ACCIONES</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <table id="tablaEventos"><thead><tr><th>FECHA</th><th>OPERACIÓN</th><th>X</th></tr></thead><tbody></tbody></table>
     </div>
 
     <div id="asistencia" class="tab-content">
-        <div class="section-header">// CONTROL DE ASISTENCIA</div>
+        <div class="section-header">// ASISTENCIA</div>
         <div class="military-grid">
             <select id="asistenciaEvento"></select>
             <select id="asistenciaSoldado"></select>
             <button onclick="marcarAsistencia()">CONFIRMAR</button>
         </div>
-        <table id="tablaAsistencias">
-            <thead><tr><th>OPERADOR</th><th>OP</th><th>FECHA</th><th>X</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <table id="tablaAsistencias"><thead><tr><th>OPERADOR</th><th>OP</th><th>FECHA</th><th>X</th></tr></thead><tbody></tbody></table>
     </div>
 
     <div id="combate" class="tab-content">
-        <div class="section-header">// REGISTRO ACCIÓN EN COMBATE</div>
+        <div class="section-header">// ACCIÓN EN COMBATE</div>
         <div class="military-grid">
             <select id="combateEvento"></select>
             <select id="combateSoldado"></select>
@@ -127,102 +134,75 @@
             <input type="number" id="combateAsistencias" placeholder="ASSISTS" value="0">
             <button onclick="registrarCombate()">REGISTRAR</button>
         </div>
-        <table id="tablaCombate">
-            <thead><tr><th>OPERADOR</th><th>OP</th><th>K</th><th>A</th><th>X</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <table id="tablaCombate"><thead><tr><th>OPERADOR</th><th>OP</th><th>K</th><th>A</th><th>X</th></tr></thead><tbody></tbody></table>
     </div>
 
     <div id="promociones" class="tab-content">
-        <div class="section-header">// GESTIÓN DE PUNTOS Y ESCALAFÓN</div>
+        <div class="section-header">// ESCALAFÓN</div>
         <div class="military-grid">
             <select id="promoSoldadoSeleccionado"></select>
-            <input type="number" id="puntosInput" value="1" placeholder="CANTIDAD">
+            <input type="number" id="puntosInput" value="1">
             <button onclick="modificarPuntosMasivo()">SUMAR PUNTOS</button>
         </div>
-        <table id="tablaPromociones">
-            <thead>
-                <tr>
-                    <th>OPERADOR</th>
-                    <th>RANGO</th>
-                    <th>COMPAÑÍA</th>
-                    <th>PUNTOS</th>
-                    <th>EDITAR</th>
-                    <th>ASCENSO</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <table id="tablaPromociones"><thead><tr><th>OPERADOR</th><th>RANGO</th><th>CIA</th><th>PUNTOS</th><th>+/-</th><th>ASCENSO</th></tr></thead><tbody></tbody></table>
     </div>
 
     <div id="intel" class="tab-content">
-        <div class="section-header">// INTELIGENCIA (OPS TOTALES: <span id="totalOperaciones" style="color:#fff">0</span>)</div>
+        <div class="section-header">// INTELIGENCIA (OPS: <span id="totalOperaciones">0</span>)</div>
         <div class="stats-grid">
-            <div class="stat-box">
-                <h3>TOP COMBATIENTES (KILLS)</h3>
-                <table id="tablaTopKills"><tbody></tbody></table>
-            </div>
-            <div class="stat-box">
-                <h3>MÉRITO ACUMULADO (PUNTOS)</h3>
-                <table id="tablaTopPuntos"><tbody></tbody></table>
-            </div>
+            <div class="stat-box"><h3>TOP KILLS</h3><table id="tablaTopKills"><tbody></tbody></table></div>
+            <div class="stat-box"><h3>TOP PUNTOS</h3><table id="tablaTopPuntos"><tbody></tbody></table></div>
         </div>
-
-        <div class="section-header" style="margin-top:40px; color:var(--danger);">// ANÁLISIS DE AUSENTISMO (RIESGO DE BAJA)</div>
-        <table id="tablaInasistencias">
-            <thead><tr><th>OPERADOR</th><th>PRESENCIAS</th><th>FALTAS</th></tr></thead>
-            <tbody></tbody>
-        </table>
-        
-        <div style="margin-top:30px;" class="btn-group">
-            <button onclick="exportarDatos()">GENERAR REPORTE JSON</button>
-            <button class="danger" onclick="resetearTodo()">FORMATEAR SISTEMA (BORRAR TODO)</button>
-        </div>
+        <div class="section-header" style="margin-top:20px;">// REPORTE DE FALTAS</div>
+        <table id="tablaInasistencias"><thead><tr><th>OPERADOR</th><th>PRESENCIAS</th><th>FALTAS</th></tr></thead><tbody></tbody></table>
+        <div style="margin-top:20px;"><button onclick="exportarDatos()">REPORTE JSON</button> <button class="danger" onclick="resetearTodo()">LOG OUT / RESET</button></div>
     </div>
 
     <div id="personal" class="tab-content">
-        <div class="section-header">// ALTA DE PERSONAL</div>
-        <p style="font-size: 0.7rem; margin-bottom: 10px;">Escribe o pega nombres (uno por línea). No se duplicarán si ya existen.</p>
-        <textarea id="listaNombres" placeholder="Ejemplo:&#10;Abdi&#10;Anuar&#10;Alexspider"></textarea>
-        <button onclick="cargarNombres()" style="margin-top:10px;">PROCESAR INGRESOS</button>
-        
-        <div class="section-header">// ROSTER ACTUAL</div>
-        <table id="tablaNombres">
-            <thead><tr><th>#</th><th>NOMBRE</th><th>ESTADO</th><th>ELIMINAR</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <div class="section-header">// ALTA PERSONAL</div>
+        <textarea id="listaNombres" placeholder="Pega nombres aquí..."></textarea>
+        <button onclick="cargarNombres()">PROCESAR</button>
+        <table id="tablaNombres"><thead><tr><th>#</th><th>NOMBRE</th><th>ESTADO</th><th>X</th></tr></thead><tbody></tbody></table>
     </div>
 </div>
 
 <script>
+    const ACCESS_CODE = "2306"; // TU CLAVE
     const RANGOS = ["Recluta", "Soldado", "Soldado Primera", "Cabo Segundo", "Cabo Primero", "Sargento Segundo", "Sargento Primero"];
     const COMPANIAS = ["FUSILERO", "GRANADERO"];
     const DB_NAME = 'regimiento_master_data';
 
     let datos = { soldados: [], eventos: [], asistencias: [], combates: [] };
 
-    // INICIALIZACIÓN: Aquí es donde se recupera la memoria
-    function init() {
-        const stored = localStorage.getItem(DB_NAME);
-        if (stored) {
-            try {
-                datos = JSON.parse(stored);
-                console.log("Memoria cargada exitosamente.");
-            } catch(e) {
-                console.error("Error leyendo la memoria.");
-            }
+    // LOGIN LOGIC
+    const passInput = document.getElementById('passInput');
+    passInput.addEventListener('input', (e) => {
+        if(e.target.value === ACCESS_CODE) {
+            sessionStorage.setItem('auth_regimiento', 'true');
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            init();
+        } else if(e.target.value.length === 4) {
+            document.getElementById('errorMsg').style.display = 'block';
+            setTimeout(() => { 
+                e.target.value = ""; 
+                document.getElementById('errorMsg').style.display = 'none';
+            }, 1000);
         }
+    });
+
+    function init() {
+        if(sessionStorage.getItem('auth_regimiento') !== 'true') return;
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+
+        const stored = localStorage.getItem(DB_NAME);
+        if (stored) datos = JSON.parse(stored);
         actualizarTodo();
-        // Reloj en tiempo real
-        setInterval(() => { 
-            const now = new Date();
-            document.getElementById('currentDateTime').textContent = now.toLocaleString(); 
-        }, 1000);
+        setInterval(() => { document.getElementById('currentDateTime').textContent = new Date().toLocaleString(); }, 1000);
     }
 
-    function guardar() { 
-        localStorage.setItem(DB_NAME, JSON.stringify(datos)); 
-    }
+    function guardar() { localStorage.setItem(DB_NAME, JSON.stringify(datos)); }
 
     function switchTab(tabName, event) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -233,27 +213,12 @@
 
     function actualizarTodo() {
         guardar();
-        
-        // Poblar Selectores
         const optSol = datos.soldados.map(s => `<option value="${s.nombre}">${s.nombre}</option>`).sort().join('');
         const optEv = datos.eventos.map(e => `<option value="${e.id}">${e.fecha} | ${e.nombre}</option>`).reverse().join('');
         
-        const selAsisSol = document.getElementById('asistenciaSoldado');
-        const selAsisEv = document.getElementById('asistenciaEvento');
-        const selCombSol = document.getElementById('combateSoldado');
-        const selCombEv = document.getElementById('combateEvento');
-        const selPromSol = document.getElementById('promoSoldadoSeleccionado');
+        document.getElementById('asistenciaSoldado').innerHTML = document.getElementById('combateSoldado').innerHTML = document.getElementById('promoSoldadoSeleccionado').innerHTML = '<option value="">-- SELECCIONAR --</option>' + optSol;
+        document.getElementById('asistenciaEvento').innerHTML = document.getElementById('combateEvento').innerHTML = '<option value="">-- SELECCIONAR OP --</option>' + optEv;
 
-        const placeholder = '<option value="">-- SELECCIONAR --</option>';
-        const placeholderOp = '<option value="">-- SELECCIONAR OPERACIÓN --</option>';
-
-        selAsisSol.innerHTML = placeholder + optSol;
-        selCombSol.innerHTML = placeholder + optSol;
-        selPromSol.innerHTML = placeholder + optSol;
-        selAsisEv.innerHTML = placeholderOp + optEv;
-        selCombEv.innerHTML = placeholderOp + optEv;
-
-        // Renderizar Tablas
         renderEventos();
         renderPromociones();
         renderAsistencias();
@@ -262,231 +227,32 @@
         renderIntel();
     }
 
-    function renderEventos() {
-        document.querySelector('#tablaEventos tbody').innerHTML = datos.eventos.map(e => `
-            <tr>
-                <td>${e.fecha}</td>
-                <td>${e.nombre}</td>
-                <td><button class="danger" style="padding:4px 8px" onclick="eliminarRegistro('eventos', ${e.id})">ELIMINAR</button></td>
-            </tr>`).reverse().join('');
+    // --- FUNCIONES DE RENDERIZADO (IGUALES A LAS ANTERIORES) ---
+    function renderEventos() { document.querySelector('#tablaEventos tbody').innerHTML = datos.eventos.map(e => `<tr><td>${e.fecha}</td><td>${e.nombre}</td><td><button class="danger" onclick="eliminarRegistro('eventos', ${e.id})">X</button></td></tr>`).reverse().join(''); }
+    function renderPromociones() { const sorted = [...datos.soldados].sort((a,b) => b.puntos - a.puntos); document.querySelector('#tablaPromociones tbody').innerHTML = sorted.map(s => `<tr><td>${s.nombre}</td><td><select onchange="cambioManual('${s.nombre}','rango',this.value)">${RANGOS.map(r=>`<option value="${r}" ${s.rango==r?'selected':''}>${r}</option>`).join('')}</select></td><td><select onchange="cambioManual('${s.nombre}','compañia',this.value)">${COMPANIAS.map(c=>`<option value="${c}" ${s.compañia==c?'selected':''}>${c}</option>`).join('')}</select></td><td><span class="puntos-badge">${s.puntos}</span></td><td><button onclick="ajustarPuntos('${s.nombre}',1)">+</button> <button class="danger" onclick="ajustarPuntos('${s.nombre}',-1)">-</button></td><td><button class="promote" onclick="promoverSoldado('${s.nombre}')">UP</button></td></tr>`).join(''); }
+    function renderAsistencias() { document.querySelector('#tablaAsistencias tbody').innerHTML = datos.asistencias.map(a => { const ev = datos.eventos.find(e => e.id == a.eventoId); return `<tr><td>${a.soldado}</td><td>${ev?ev.nombre:'??'}</td><td>${ev?ev.fecha:'--'}</td><td><button class="danger" onclick="eliminarRegistro('asistencias', ${a.id})">X</button></td></tr>`; }).reverse().join(''); }
+    function renderCombate() { document.querySelector('#tablaCombate tbody').innerHTML = datos.combates.map(c => { const ev = datos.eventos.find(e => e.id == c.eventoId); return `<tr><td>${c.soldado}</td><td>${ev?ev.nombre:'??'}</td><td style="color:var(--accent)">${c.kills}</td><td>${c.asistencias}</td><td><button class="danger" onclick="eliminarRegistro('combates', ${c.id})">X</button></td></tr>`; }).reverse().join(''); }
+    function renderPersonal() { document.querySelector('#tablaNombres tbody').innerHTML = datos.soldados.map((s,i) => `<tr><td>${i+1}</td><td>${s.nombre}</td><td style="color:var(--accent)">ACTIVO</td><td><button class="danger" onclick="eliminarSoldado('${s.nombre}')">BAJA</button></td></tr>`).join(''); }
+    function renderIntel() { const total = datos.eventos.length; document.getElementById('totalOperaciones').textContent = total; const kMap = {}; datos.combates.forEach(c => kMap[c.soldado] = (kMap[c.soldado] || 0) + c.kills); const topK = Object.entries(kMap).sort((a,b) => b[1]-a[1]).slice(0,5); document.querySelector('#tablaTopKills tbody').innerHTML = topK.map(t => `<tr><td>${t[0]}</td><td>${t[1]} Kills</td></tr>`).join(''); const topP = [...datos.soldados].sort((a,b) => b.puntos - a.puntos).slice(0,5); document.querySelector('#tablaTopPuntos tbody').innerHTML = topP.map(s => `<tr><td>${s.nombre}</td><td>${s.puntos} Pts</td></tr>`).join(''); const stats = datos.soldados.map(s => { const asis = datos.asistencias.filter(a => a.soldado === s.nombre).length; return { nombre: s.nombre, asistencias: asis, faltas: total - asis }; }).sort((a,b) => b.faltas - a.faltas).slice(0, 20); document.querySelector('#tablaInasistencias tbody').innerHTML = stats.map(s => `<tr><td>${s.nombre}</td><td>${s.asistencias}/${total}</td><td style="color:${s.faltas>3?'red':'#fff'}">${s.faltas}</td></tr>`).join(''); }
+
+    // --- ACCIONES ---
+    function cargarNombres() { const lines = document.getElementById('listaNombres').value.split('\n').map(n=>n.trim()).filter(n=>n); lines.forEach(n => { if(!datos.soldados.find(s=>s.nombre==n)) datos.soldados.push({nombre:n, puntos:0, rango:RANGOS[0], compañia:COMPANIAS[0]}); }); document.getElementById('listaNombres').value=""; actualizarTodo(); }
+    function ajustarPuntos(n, p) { const s = datos.soldados.find(x=>x.nombre==n); if(s) { s.puntos = Math.max(0, s.puntos+p); actualizarTodo(); } }
+    function modificarPuntosMasivo() { const n = document.getElementById('promoSoldadoSeleccionado').value; const p = parseInt(document.getElementById('puntosInput').value); if(n && !isNaN(p)) ajustarPuntos(n, p); }
+    function promoverSoldado(n) { const s = datos.soldados.find(x=>x.nombre==n); const idx = RANGOS.indexOf(s.rango); if(idx < RANGOS.length-1 && confirm("Confirmar ascenso?")) { s.rango = RANGOS[idx+1]; s.puntos=0; actualizarTodo(); } }
+    function cambioManual(n, c, v) { const s = datos.soldados.find(x=>x.nombre==n); if(s) { s[c]=v; guardar(); } }
+    function agregarEvento() { const f = document.getElementById('eventoFecha').value; const n = document.getElementById('eventoNombre').value; if(f && n) { datos.eventos.push({fecha:f, nombre:n, id:Date.now()}); actualizarTodo(); } }
+    function marcarAsistencia() { const e = document.getElementById('asistenciaEvento').value; const s = document.getElementById('asistenciaSoldado').value; if(e && s) { if(!datos.asistencias.find(a=>a.eventoId==e && a.soldado==s)) { datos.asistencias.push({eventoId:parseInt(e), soldado:s, id:Date.now()}); actualizarTodo(); } } }
+    function registrarCombate() { const e = document.getElementById('combateEvento').value; const s = document.getElementById('combateSoldado').value; const k = parseInt(document.getElementById('combateKills').value)||0; const a = parseInt(document.getElementById('combateAsistencias').value)||0; if(e && s) { datos.combates.push({eventoId:parseInt(e), soldado:s, kills:k, asistencias:a, id:Date.now()}); actualizarTodo(); } }
+    function eliminarSoldado(n) { if(confirm("Dar de baja?")) { datos.soldados = datos.soldados.filter(s=>s.nombre!==n); actualizarTodo(); } }
+    function eliminarRegistro(t, i) { if(confirm("Eliminar registro?")) { datos[t] = datos[t].filter(x=>x.id!==i); actualizarTodo(); } }
+    function exportarDatos() { const blob = new Blob([JSON.stringify(datos)], {type:"application/json"}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "backup.json"; a.click(); }
+    function resetearTodo() { if(confirm("CERRAR SESIÓN Y RESETEAR?")) { sessionStorage.clear(); location.reload(); } }
+
+    // Verificación inicial de sesión
+    if(sessionStorage.getItem('auth_regimiento') === 'true') {
+        init();
     }
-
-    function renderPromociones() {
-        const sortedPromos = [...datos.soldados].sort((a,b) => b.puntos - a.puntos);
-        document.querySelector('#tablaPromociones tbody').innerHTML = sortedPromos.map(s => `
-            <tr>
-                <td style="font-weight:bold">${s.nombre}</td>
-                <td><select onchange="cambioManual('${s.nombre}', 'rango', this.value)">
-                    ${RANGOS.map(r => `<option value="${r}" ${s.rango==r?'selected':''}>${r}</option>`).join('')}
-                </select></td>
-                <td><select onchange="cambioManual('${s.nombre}', 'compañia', this.value)">
-                    ${COMPANIAS.map(c => `<option value="${c}" ${s.compañia==c?'selected':''}>${c}</option>`).join('')}
-                </select></td>
-                <td><span class="puntos-badge">${s.puntos}</span></td>
-                <td>
-                    <button onclick="ajustarPuntos('${s.nombre}', 1)">+</button>
-                    <button class="danger" onclick="ajustarPuntos('${s.nombre}', -1)">-</button>
-                </td>
-                <td><button class="promote" onclick="promoverSoldado('${s.nombre}')">ASCENDER</button></td>
-            </tr>`).join('');
-    }
-
-    function renderAsistencias() {
-        document.querySelector('#tablaAsistencias tbody').innerHTML = datos.asistencias.map(a => {
-            const ev = datos.eventos.find(e => e.id == a.eventoId);
-            return `<tr>
-                <td>${a.soldado}</td>
-                <td>${ev ? ev.nombre : 'OP eliminada'}</td>
-                <td>${ev ? ev.fecha : '--'}</td>
-                <td><button class="danger" style="padding:2px 8px" onclick="eliminarRegistro('asistencias', ${a.id})">X</button></td>
-            </tr>`;
-        }).reverse().join('');
-    }
-
-    function renderCombate() {
-        document.querySelector('#tablaCombate tbody').innerHTML = datos.combates.map(c => {
-            const ev = datos.eventos.find(e => e.id == c.eventoId);
-            return `<tr>
-                <td>${c.soldado}</td>
-                <td>${ev ? ev.nombre : '??'}</td>
-                <td style="color:var(--accent)">${c.kills}</td>
-                <td>${c.asistencias}</td>
-                <td><button class="danger" style="padding:2px 8px" onclick="eliminarRegistro('combates', ${c.id})">X</button></td>
-            </tr>`;
-        }).reverse().join('');
-    }
-
-    function renderPersonal() {
-        document.querySelector('#tablaNombres tbody').innerHTML = datos.soldados.map((s,i) => `
-            <tr>
-                <td>${i+1}</td>
-                <td>${s.nombre}</td>
-                <td style="color:var(--accent)">ACTIVO</td>
-                <td><button class="danger" style="padding:4px 8px" onclick="eliminarSoldado('${s.nombre}')">BAJA</button></td>
-            </tr>`).join('');
-    }
-
-    function renderIntel() {
-        const totalOps = datos.eventos.length;
-        document.getElementById('totalOperaciones').textContent = totalOps;
-
-        // Top Kills
-        const kMap = {}; 
-        datos.combates.forEach(c => kMap[c.soldado] = (kMap[c.soldado] || 0) + c.kills);
-        const topK = Object.entries(kMap).sort((a,b) => b[1]-a[1]).slice(0,5);
-        document.querySelector('#tablaTopKills tbody').innerHTML = topK.map(t => `<tr><td>${t[0]}</td><td style="color:var(--accent); font-weight:bold;">${t[1]} Kills</td></tr>`).join('');
-
-        // Top Puntos
-        const topP = [...datos.soldados].sort((a,b) => b.puntos - a.puntos).slice(0,5);
-        document.querySelector('#tablaTopPuntos tbody').innerHTML = topP.map(s => `<tr><td>${s.nombre}</td><td style="color:var(--accent); font-weight:bold;">${s.puntos} Pts</td></tr>`).join('');
-
-        // Faltas
-        const stats = datos.soldados.map(s => {
-            const asis = datos.asistencias.filter(a => a.soldado === s.nombre).length;
-            return { nombre: s.nombre, asistencias: asis, faltas: totalOps - asis };
-        }).sort((a,b) => b.faltas - a.faltas).slice(0, 20);
-
-        document.querySelector('#tablaInasistencias tbody').innerHTML = stats.map(s => `
-            <tr>
-                <td>${s.nombre}</td>
-                <td>${s.asistencias} / ${totalOps}</td>
-                <td style="color:${s.faltas > 3 ? 'var(--danger)' : '#fff'}; font-weight:bold;">${s.faltas}</td>
-            </tr>`).join('');
-    }
-
-    function cargarNombres() {
-        const input = document.getElementById('listaNombres').value;
-        const lineas = input.split('\n').map(n => n.trim()).filter(n => n !== "");
-        let agregados = 0;
-
-        lineas.forEach(n => {
-            if(!datos.soldados.find(s => s.nombre.toLowerCase() === n.toLowerCase())) {
-                datos.soldados.push({
-                    nombre: n, 
-                    puntos: 0, 
-                    rango: RANGOS[0], 
-                    compañia: COMPANIAS[0],
-                    ingreso: new Date().toISOString()
-                });
-                agregados++;
-            }
-        });
-        document.getElementById('listaNombres').value = "";
-        if(agregados > 0) alert(`Se han procesado ${agregados} nuevos ingresos.`);
-        actualizarTodo();
-    }
-
-    function ajustarPuntos(nombre, p) {
-        const s = datos.soldados.find(x => x.nombre === nombre);
-        if(s) {
-            s.puntos = Math.max(0, s.puntos + p);
-            actualizarTodo();
-        }
-    }
-
-    function modificarPuntosMasivo() {
-        const nombre = document.getElementById('promoSoldadoSeleccionado').value;
-        const pts = parseInt(document.getElementById('puntosInput').value);
-        if(nombre && !isNaN(pts)) {
-            ajustarPuntos(nombre, pts);
-        } else {
-            alert("Selecciona un soldado y una cantidad válida.");
-        }
-    }
-
-    function promoverSoldado(nombre) {
-        const s = datos.soldados.find(x => x.nombre === nombre);
-        const idx = RANGOS.indexOf(s.rango);
-        if(idx < RANGOS.length - 1) {
-            if(confirm(`¿Confirmar ascenso de ${nombre} a ${RANGOS[idx+1]}? Puntos se reiniciarán.`)) {
-                s.rango = RANGOS[idx+1];
-                s.puntos = 0;
-                actualizarTodo();
-            }
-        } else {
-            alert("Rango máximo alcanzado.");
-        }
-    }
-
-    function cambioManual(nombre, campo, valor) {
-        const s = datos.soldados.find(x => x.nombre === nombre);
-        if(s) {
-            s[campo] = valor;
-            guardar();
-        }
-    }
-
-    function agregarEvento() {
-        const fecha = document.getElementById('eventoFecha').value;
-        const nombre = document.getElementById('eventoNombre').value.trim();
-        if(fecha && nombre) {
-            datos.eventos.push({ fecha, nombre, id: Date.now() });
-            document.getElementById('eventoNombre').value = "";
-            actualizarTodo();
-        } else {
-            alert("Completa fecha y nombre de la operación.");
-        }
-    }
-
-    function marcarAsistencia() {
-        const evId = document.getElementById('asistenciaEvento').value;
-        const soldado = document.getElementById('asistenciaSoldado').value;
-        if(evId && soldado) {
-            const yaExiste = datos.asistencias.find(a => a.eventoId == evId && a.soldado == soldado);
-            if(yaExiste) return alert("Este operador ya tiene asistencia registrada en esta OP.");
-            
-            datos.asistencias.push({ eventoId: parseInt(evId), soldado: soldado, id: Date.now() });
-            actualizarTodo();
-        }
-    }
-
-    function registrarCombate() {
-        const evId = document.getElementById('combateEvento').value;
-        const soldado = document.getElementById('combateSoldado').value;
-        const k = parseInt(document.getElementById('combateKills').value) || 0;
-        const a = parseInt(document.getElementById('combateAsistencias').value) || 0;
-        if(evId && soldado) {
-            datos.combates.push({ eventoId: parseInt(evId), soldado, kills: k, asistencias: a, id: Date.now() });
-            document.getElementById('combateKills').value = 0;
-            document.getElementById('combateAsistencias').value = 0;
-            actualizarTodo();
-        }
-    }
-
-    function eliminarSoldado(n) {
-        if(confirm(`¿Dar de baja a ${n}? Se borrarán sus puntos y registros.`)) {
-            datos.soldados = datos.soldados.filter(s => s.nombre !== n);
-            datos.asistencias = datos.asistencias.filter(a => a.soldado !== n);
-            datos.combates = datos.combates.filter(c => c.soldado !== n);
-            actualizarTodo();
-        }
-    }
-
-    function eliminarRegistro(tipo, id) {
-        if(confirm("¿Eliminar este registro permanentemente?")) {
-            datos[tipo] = datos[tipo].filter(x => x.id !== id);
-            actualizarTodo();
-        }
-    }
-
-    function exportarDatos() {
-        const blob = new Blob([JSON.stringify(datos, null, 2)], {type: "application/json"});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `granaderos_backup_${new Date().toISOString().slice(0,10)}.json`;
-        a.click();
-    }
-
-    function resetearTodo() {
-        if(confirm("¡ATENCIÓN! Se borrarán todos los soldados, puntos y operaciones. ¿Continuar?")) {
-            localStorage.removeItem(DB_NAME);
-            location.reload();
-        }
-    }
-
-    // Arrancar sistema
-    init();
 </script>
 </body>
 </html>
